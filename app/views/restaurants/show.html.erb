@@ -19,6 +19,8 @@
         </tbody>
       </table>
 
+      <%= link_to "Edit this restaurants", edit_restaurant_path(@restaurant) %>
+
       <div class="list-group">
         <% @restaurant.reviews.each do |review| %>
           <li class="list-group-item">
