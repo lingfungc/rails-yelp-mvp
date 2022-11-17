@@ -2,7 +2,13 @@ class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
 
   def index
-    @restaurants = Restaurant.all
+    if params[:query].present?
+      # @restaurants = Restaurant.where(name: params[:query])
+      @restaurants = Restaurant.where("name LIKE ?", "%#{params[:query]}%")
+      # raise
+    else
+      @restaurants = Restaurant.all
+    end
   end
 
   def show

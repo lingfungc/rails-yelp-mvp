@@ -9,8 +9,8 @@ class Restaurant < ApplicationRecord
   validates :name, :address, :category, presence: true
   validates :category, inclusion: { in: CATEGORIES }
 
-  include PgSearch::Model
-  pg_search_scope :search_by_name, against: :name
+  # include PgSearch::Model
+  # pg_search_scope :search_by_name, against: :name
     # using: {
     #   tsearch: { prefix: true } # <-- now `superman batm` will return something!
     # }
