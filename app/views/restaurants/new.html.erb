@@ -1,14 +1,21 @@
 <div class="container">
+
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+
       <h1>Create a new restaurant</h1>
+
+      <%# Simple Form will set the form_action to "/restaurants" automatically %>
       <%= simple_form_for @restaurant do |f| %>
         <%= f.input :name %>
         <%= f.input :address %>
         <%= f.input :phone_number %>
         <%= f.input :category, collection: Restaurant::CATEGORIES %>
+        <%# Simple Form will set the button to "Create Restaurant" automatically %>
         <%= f.submit class: 'btn btn-primary' %>
       <% end %>
+
     </div>
   </div>
+
 </div>

@@ -1,18 +1,18 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+  before_action :set_restaurant, only: %i[show edit update destroy]
 
   def index
-    if params[:query].present?
-      # @restaurants = Restaurant.where(name: params[:query])
-      @restaurants = Restaurant.where("name LIKE ?", "%#{params[:query]}%")
-      # raise
-    else
-      @restaurants = Restaurant.all
-    end
+    @restaurants = if params[:query].present?
+                     # @restaurants = Restaurant.where(name: params[:query])
+                     Restaurant.where('name LIKE ?', "%#{params[:query]}%")
+                   else
+                     Restaurant.all
+                   end
   end
 
   def show
-    # set_restaurant
+    # before_action - set_restaurant
+    # This is important to make the simple_form working for creating a new review
     @review = Review.new
   end
 
@@ -21,8 +21,9 @@ class RestaurantsController < ApplicationController
   end
 
   def create
+    # call and get result of the private method restaurant_params
     @restaurant = Restaurant.new(restaurant_params)
-    @restaurant.save
+    # @restaurant.save
     if @restaurant.save
       redirect_to restaurant_path(@restaurant)
     else
@@ -31,9 +32,12 @@ class RestaurantsController < ApplicationController
   end
 
   def edit
+    # before_action - set_restaurant
   end
 
   def update
+    # before_action - set_restaurant
+    # call and get result of the private method restaurant_params
     if @restaurant.update(restaurant_params)
       redirect_to restaurant_path(@restaurant)
     else
@@ -42,6 +46,7 @@ class RestaurantsController < ApplicationController
   end
 
   def destroy
+    # before_action - set_restaurant
     @restaurant.destroy
     redirect_to restaurants_path, status: :see_other
   end

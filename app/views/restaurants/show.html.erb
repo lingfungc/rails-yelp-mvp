@@ -1,7 +1,12 @@
 <div class="container">
+
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+
+      <%# Restaurant %>
+
       <h1><%= @restaurant.name %></h1>
+
       <table class="table table-bordered">
         <tbody>
           <tr>
@@ -19,6 +24,21 @@
         </tbody>
       </table>
 
+      <div class="mb-5"></div>
+
+      <h1>Edit <%= "#{@restaurant.name}" %></h1>
+
+      <%= simple_form_for @restaurant do |f| %>
+        <%= f.input :name %>
+        <%= f.input :address %>
+        <%= f.input :phone_number %>
+        <%= f.input :category, collection: Restaurant::CATEGORIES %>
+        <%# Simple Form will set the button to "Edit Restaurant" automatically %>
+        <%= f.submit class: 'btn btn-primary' %>
+      <% end %>
+
+      <div class="mb-3"></div>
+
       <%= link_to "Edit this restaurants", edit_restaurant_path(@restaurant) %>
 
       <%= link_to "Delete this restaurant",
@@ -26,10 +46,14 @@
           data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }
       %>
 
+      <div class="mb-5"></div>
 
-      <div class="list-group">
+      <%# Restaurant - Reviews %>
+
+      <div class="list-group mb-3">
         <% @restaurant.reviews.each do |review| %>
-          <li class="list-group-item">
+
+          <li class="list-group-item p-3">
             <small>
               <% count = 0 %>
               <% 5.times do %>
@@ -41,25 +65,36 @@
                 <% count += 1 %>
               <% end %>
             </small>
-            <p><%= review.content %></p>
+
+            <p class="mt-3"><%= review.content %></p>
+
+            <%# The route is /restaurants/:restaurant_id/reviews/:id %>
             <%= link_to "Edit this review", edit_restaurant_review_path(@restaurant, review) %>
+
             <%= link_to "Delete this review",
                 restaurant_review_path(@restaurant, review),
                 data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }
             %>
           </li>
+
         <% end %>
       </div>
 
       <%= link_to "Add a review", new_restaurant_review_path(@restaurant) %>
 
+      <div class="mb-3"></div>
+
+      <%# Simple Form will set the form_action to "/restaurant/:id/reviews" automatically %>
       <%= simple_form_for [@restaurant, @review] do |f| %>
         <%= f.input :rating, collection: 0..5 %>
         <%= f.input :content%>
         <%= f.submit class: 'btn btn-primary' %>
       <% end %>
 
+      <div class="mb-5"></div>
+
       <%= link_to "See all restaurants", restaurants_path %>
     </div>
   </div>
+
 </div>
